@@ -1,6 +1,7 @@
 {
   "_설명": "하나투어 경쟁상품 가격 모니터링 설정. 상품을 추가하려면 products 배열에 항목을 추가하세요.",
   "site_name": "하나투어",
+  "dashboard_url": "https://yangsiri75-pixel.github.io/hanatour-price-monitor/",
   "product_page_url": "https://hope.hanatour.com/trp/pkg/CHPC0PKG0200M200?pkgCd={code}",
   "api": {
     "url": "https://gw.hanatour.com/package/pkg/api/dotcom/pkgdtcmprod/getPkgProdLst/v1.00?_siteId=hanatour",

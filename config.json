@@ -1,0 +1,28 @@
+{
+  "_설명": "하나투어 경쟁상품 가격 모니터링 설정. 상품을 추가하려면 products 배열에 항목을 추가하세요.",
+  "site_name": "하나투어",
+  "product_page_url": "https://hope.hanatour.com/trp/pkg/CHPC0PKG0200M200?pkgCd={code}",
+  "api": {
+    "url": "https://gw.hanatour.com/package/pkg/api/dotcom/pkgdtcmprod/getPkgProdLst/v1.00?_siteId=hanatour",
+    "rprsProdCds": "MJK1116",
+    "areaCd": "JK",
+    "depCityCd": "PUS",
+    "ptnCd": "PH06484",
+    "prgmId": "CHPC0PKG0200M200",
+    "page_size": 200
+  },
+  "days_ahead": 150,
+  "products": [
+    {
+      "id": "fukuoka-beppu-yufuin-4d",
+      "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",
+      "code_prefix": "JKP4432",
+      "code_suffix": "P0D"
+    }
+  ],
+  "notify": {
+    "heartbeat_days": 2,
+    "watch_fields": ["adtAmt"],
+    "info_fields": ["remaSeatCnt", "depFixYn"]
+  }
+}

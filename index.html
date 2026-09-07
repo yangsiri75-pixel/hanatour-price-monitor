@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하나투어 가격 모니터</title>
+<style>
+:root{
+  color-scheme:light;
+  --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10);
+  --series:#2a78d6; --down:#d03b3b; --up:#1c5cab; --downbg:#fdecec; --upbg:#e6f0fb; --newbg:#eaf7ea; --goodink:#006300;
+  --warn:#fab219;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --page:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10);
+    --series:#3987e5; --down:#e66767; --up:#6da7ec; --downbg:#3a1f1f; --upbg:#1b2a3d; --newbg:#1c2f1c; --goodink:#0ca30c;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:14px/1.5 system-ui,-apple-system,"Segoe UI","Malgun Gothic",sans-serif}
+header{padding:20px 24px 8px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+header h1{font-size:20px;margin:0}
+header .sub{color:var(--ink2);font-size:13px}
+main{padding:0 24px 40px;max-width:1280px;margin:0 auto}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:12px 0 20px}
+.tile{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.tile .k{font-size:12px;color:var(--ink2)}
+.tile .v{font-size:22px;font-weight:600;margin-top:2px}
+.tile .v small{font-size:12px;font-weight:400;color:var(--muted);margin-left:4px}
+.tile.alert .v{color:var(--down)}
+section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px}
+section h2{font-size:15px;margin:0 0 10px}
+.filters{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px;font-size:13px}
+.filters select,.filters input[type=text]{font:inherit;padding:4px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--ink)}
+.filters label{display:flex;align-items:center;gap:4px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-bottom:8px}
+.legend span i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid var(--border)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:6px 8px;border-bottom:1px solid var(--grid);text-align:left;white-space:nowrap}
+th{color:var(--ink2);font-weight:600;position:sticky;top:0;background:var(--surface);cursor:pointer;user-select:none}
+th.sorted::after{content:" ▾";color:var(--muted)}
+th.sorted.asc::after{content:" ▴"}
+td.num,th.num{text-align:right}
+tr.changed td.day{color:var(--down);font-weight:700}
+tr.latest-down{background:var(--downbg)}
+tr.latest-up{background:var(--upbg)}
+tr.new{background:var(--newbg)}
+tr.removed td{color:var(--muted);text-decoration:line-through}
+tr.clickable{cursor:pointer}
+tr.clickable:hover td{background:rgba(42,120,214,.08)}
+tr.selected td{outline:2px solid var(--series);outline-offset:-2px}
+.delta-down{color:var(--down);font-weight:600}
+.delta-up{color:var(--up);font-weight:600}
+.badge{display:inline-block;font-size:11px;padding:1px 6px;border-radius:10px;border:1px solid var(--border);color:var(--ink2);margin-left:4px}
+.badge.fix{color:var(--goodink);border-color:var(--goodink)}
+a{color:var(--series)}
+.chartwrap{position:relative}
+svg text{font:11px system-ui,sans-serif;fill:var(--muted)}
+.tooltip{position:absolute;pointer-events:none;background:var(--ink);color:var(--page);padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap;display:none;z-index:2}
+.cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.month{border:1px solid var(--border);border-radius:8px;padding:10px}
+.month h3{font-size:13px;margin:0 0 6px;color:var(--ink2)}
+.mgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.mgrid .dow{font-size:10px;color:var(--muted);text-align:center}
+.cell{min-height:40px;border-radius:5px;padding:3px 4px;font-size:11px;background:var(--page);border:1px solid transparent}
+.cell .d{color:var(--muted);font-size:10px}
+.cell .p{font-weight:600;font-size:12px}
+.cell.has{cursor:pointer}
+.cell.has:hover{border-color:var(--series)}
+.cell.changed{border-color:var(--down)}
+.cell.changed .d{color:var(--down);font-weight:700}
+.cell.latest-down{background:var(--downbg)}
+.cell.latest-up{background:var(--upbg)}
+.cell.min .p{color:var(--goodink)}
+.cell.empty{background:transparent}
+.muted{color:var(--muted);font-size:12px}
+.error{color:var(--down);padding:20px}
+footer{color:var(--muted);font-size:12px;padding:10px 24px}
+.tabs{display:flex;gap:4px;margin-bottom:12px}
+.tabs button{font:inherit;padding:6px 12px;border:1px solid var(--border);background:var(--surface);color:var(--ink2);border-radius:6px;cursor:pointer}
+.tabs button.on{background:var(--series);color:#fff;border-color:var(--series)}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>하나투어 가격 모니터</h1>
+  <span class="sub" id="prodLabel">불러오는 중…</span>
+  <span class="sub" id="runInfo"></span>
+</header>
+<main>
+  <div class="tiles" id="tiles"></div>
+
+  <div class="tabs">
+    <button class="on" data-tab="table">출발일 표</button>
+    <button data-tab="cal">달력</button>
+    <button data-tab="events">변동 이력</button>
+  </div>
+
+  <section id="tab-table">
+    <h2>출발일별 현재가 <span class="muted">— 행을 클릭하면 아래에 가격 추이가 표시됩니다</span></h2>
+    <div class="filters">
+      <label>월 <select id="fMonth"><option value="">전체</option></select></label>
+      <label><input type="checkbox" id="fChanged"> 변동 있었던 출발일만</label>
+      <label><input type="checkbox" id="fActive" checked> 판매중만</label>
+      <span class="muted" id="rowCount"></span>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--downbg);border-color:var(--down)"></i>최근 조회에서 인하</span>
+      <span><i style="background:var(--upbg)"></i>최근 조회에서 인상</span>
+      <span><i style="background:var(--newbg)"></i>신규 출발일</span>
+      <span><b style="color:var(--down)">빨강 볼드</b> = 이력상 가격 변동 있었음</span>
+    </div>
+    <div class="tablewrap" style="max-height:560px;overflow:auto"><table id="mainTable"><thead><tr>
+      <th data-k="depDay" class="sorted asc">출발일</th>
+      <th data-k="cur" class="num">현재 성인가</th>
+      <th data-k="prev" class="num">직전가</th>
+      <th data-k="delta" class="num">최근 변동</th>
+      <th data-k="nchg" class="num">변동횟수</th>
+      <th data-k="lastChg">마지막 변동일</th>
+      <th data-k="minp" class="num">최저</th>
+      <th data-k="maxp" class="num">최고</th>
+      <th data-k="seat" class="num">잔여석</th>
+      <th data-k="fix">출발확정</th>
+      <th data-k="first">최초 확인</th>
+      <th>링크</th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="chartSec" class="hidden">
+    <h2 id="chartTitle"></h2>
+    <div class="chartwrap"><svg id="chart" width="100%" height="260"></svg><div class="tooltip" id="tip"></div></div>
+    <div class="tablewrap"><table id="histTable"><thead><tr><th>조회시각</th><th class="num">성인가</th><th class="num">변동</th><th class="num">잔여석</th><th>출발확정</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="tab-cal" class="hidden">
+    <h2>가격 달력 <span class="muted">— 숫자는 성인가(만원), 초록은 해당 월 최저가, 빨강 테두리는 변동 이력</span></h2>
+    <div class="cal" id="cal"></div>
+  </section>
+
+  <section id="tab-events" class="hidden">
+    <h2>가격 변동 이력 <span class="muted" id="evCount"></span></h2>
+    <div class="tablewrap"><table id="evTable"><thead><tr><th>감지 시각</th><th>출발일</th><th>구분</th><th class="num">이전</th><th class="num">이후</th><th class="num">차액</th><th>링크</th></tr></thead><tbody></tbody></table></div>
+  </section>
+</main>
+<footer>데이터: GitHub Actions 가 매일 09:00·18:00 수집 · <a href="https://github.com/yangsiri75-pixel/hanatour-price-monitor" target="_blank">저장소</a> · <a href="data/report.md" target="_blank">최신 리포트</a> · <a href="data/history.csv" target="_blank">history.csv</a></footer>
+
+<script>
+const PROD_URL = c => `https://hope.hanatour.com/trp/pkg/CHPC0PKG0200M200?pkgCd=${c}`;
+const won = v => v==null||isNaN(v) ? '-' : Number(v).toLocaleString('ko-KR')+'원';
+const fmtDay = d => { const dt=new Date(+d.slice(0,4),+d.slice(4,6)-1,+d.slice(6,8)); return `${d.slice(4,6)}/${d.slice(6,8)}(${'일월화수목금토'[dt.getDay()]})`; };
+const fmtDayFull = d => `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}`;
+
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/); const head=lines[0].split(',');
+  return lines.slice(1).map(l=>{ const c=l.split(','); const o={}; head.forEach((h,i)=>o[h]=c[i]); return o; });
+}
+
+let DATA, SEL=null, SORT={k:'depDay',asc:true};
+
+async function load(){
+  const t=Date.now();
+  const [csvR, chR] = await Promise.all([fetch('data/history.csv?t='+t), fetch('data/changes.json?t='+t)]);
+  if(!csvR.ok) throw new Error('history.csv 를 찾을 수 없습니다 ('+csvR.status+')');
+  const rows=parseCSV(await csvR.text());
+  const changes = chR.ok ? await chR.json() : null;
+  build(rows, changes);
+}
+
+function build(rows, changes){
+  const runs=[...new Set(rows.map(r=>r.run_at))].sort();
+  const latest=runs[runs.length-1], prevRun=runs[runs.length-2];
+  const byDay={};
+  for(const r of rows){
+    (byDay[r.depDay] ||= {depDay:r.depDay, hist:[]}).hist.push({run:r.run_at, price:+r.adtAmt, seat:+r.remaSeatCnt, total:+r.seatCnt, fix:r.depFixYn, code:r.saleProdCd});
+  }
+  const events=[];
+  const days=Object.values(byDay).map(d=>{
+    d.hist.sort((a,b)=>a.run<b.run?-1:1);
+    const h=d.hist, last=h[h.length-1];
+    d.cur=last.price; d.code=last.code; d.seat=last.seat; d.total=last.total; d.fix=last.fix;
+    d.first=h[0].run; d.lastSeen=last.run; d.active = last.run===latest;
+    d.isNew = runs.length>1 && h[0].run===latest;
+    d.changes=[];
+    for(let i=1;i<h.length;i++){ if(h[i].price!==h[i-1].price){ const e={run:h[i].run, depDay:d.depDay, kind:'가격', old:h[i-1].price, new:h[i].price, code:h[i].code}; d.changes.push(e); events.push(e);} }
+    if(d.isNew) events.push({run:d.first, depDay:d.depDay, kind:'신규', old:null, new:d.cur, code:d.code});
+    if(!d.active && d.depDay>=latest.slice(0,10).replace(/-/g,'')) events.push({run:runs[runs.indexOf(d.lastSeen)+1], depDay:d.depDay, kind:'종료', old:d.cur, new:null, code:d.code});
+    d.nchg=d.changes.length;
+    const lc=d.changes[d.changes.length-1];
+    d.lastChg = lc? lc.run : '';
+    d.prev = lc ? lc.old : null;
+    d.delta = lc ? lc.new-lc.old : 0;
+    d.latestDelta = (lc && lc.run===latest) ? lc.new-lc.old : 0;
+    d.minp=Math.min(...h.map(x=>x.price)); d.maxp=Math.max(...h.map(x=>x.price));
+    return d;
+  }).sort((a,b)=>a.depDay<b.depDay?-1:1);
+  DATA={runs, latest, days, events:events.sort((a,b)=>a.run>b.run?-1:a.run<b.run?1:(a.depDay<b.depDay?-1:1)), changes};
+
+  const label = changes?.products ? Object.values(changes.products)[0].label : '';
+  document.getElementById('prodLabel').textContent=label;
+  document.getElementById('runInfo').textContent=`최근 조회 ${latest} · 누적 ${runs.length}회`;
+
+  const active=days.filter(d=>d.active);
+  const latestChanges=days.filter(d=>d.latestDelta!==0);
+  const weekAgo=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  const recentEv=events.filter(e=>e.kind==='가격' && e.run>=weekAgo).length;
+  const minD=active.reduce((m,d)=>d.cur<m.cur?d:m, active[0]);
+  document.getElementById('tiles').innerHTML=`
+    <div class="tile"><div class="k">판매중 출발일</div><div class="v">${active.length}<small>개</small></div></div>
+    <div class="tile"><div class="k">최저가</div><div class="v">${won(minD?.cur)}<small>${minD?fmtDay(minD.depDay):''}</small></div></div>
+    <div class="tile"><div class="k">최고가</div><div class="v">${won(Math.max(...active.map(d=>d.cur)))}</div></div>
+    <div class="tile ${latestChanges.length?'alert':''}"><div class="k">최근 조회 변동</div><div class="v">${latestChanges.length}<small>건</small></div></div>
+    <div class="tile ${recentEv?'alert':''}"><div class="k">최근 7일 가격변동</div><div class="v">${recentEv}<small>건</small></div></div>
+    <div class="tile"><div class="k">변동 이력 있는 출발일</div><div class="v">${days.filter(d=>d.nchg).length}<small>개</small></div></div>`;
+
+  const months=[...new Set(days.map(d=>d.depDay.slice(0,6)))].sort();
+  const sel=document.getElementById('fMonth');
+  months.forEach(m=>{ const o=document.createElement('option'); o.value=m; o.textContent=`${m.slice(0,4)}년 ${+m.slice(4)}월`; sel.appendChild(o); });
+
+  renderTable(); renderCal(); renderEvents();
+  if(latestChanges.length) select(latestChanges[0].depDay);
+}
+
+function filtered(){
+  const m=document.getElementById('fMonth').value, c=document.getElementById('fChanged').checked, a=document.getElementById('fActive').checked;
+  let rows=DATA.days.filter(d=>(!m||d.depDay.startsWith(m))&&(!c||d.nchg||d.isNew)&&(!a||d.active));
+  const k=SORT.k; rows.sort((x,y)=>{ let a=x[k],b=y[k]; if(a==null)a=''; if(b==null)b=''; return (a<b?-1:a>b?1:0)*(SORT.asc?1:-1); });
+  return rows;
+}
+
+function renderTable(){
+  const rows=filtered(); const tb=document.querySelector('#mainTable tbody');
+  document.getElementById('rowCount').textContent=`${rows.length}개`;
+  tb.innerHTML=rows.map(d=>{
+    const cls=['clickable', d.nchg?'changed':'', d.latestDelta<0?'latest-down':d.latestDelta>0?'latest-up':'', d.isNew?'new':'', !d.active?'removed':'', SEL===d.depDay?'selected':''].join(' ');
+    const dl = d.delta? `<span class="${d.delta<0?'delta-down':'delta-up'}">${d.delta<0?'▼':'▲'} ${Math.abs(d.delta).toLocaleString()}</span>` : '';
+    return `<tr class="${cls}" data-day="${d.depDay}">
+      <td class="day">${fmtDay(d.depDay)}${d.isNew?'<span class="badge">신규</span>':''}${!d.active?'<span class="badge">종료</span>':''}</td>
+      <td class="num"><b>${won(d.cur)}</b></td><td class="num">${d.prev!=null?won(d.prev):'-'}</td><td class="num">${dl}</td>
+      <td class="num">${d.nchg||''}</td><td>${d.lastChg}</td>
+      <td class="num">${won(d.minp)}</td><td class="num">${won(d.maxp)}</td>
+      <td class="num">${d.seat}/${d.total}</td><td>${d.fix==='Y'?'<span class="badge fix">출발확정</span>':''}</td>
+      <td>${d.first.slice(0,10)}</td><td><a href="${PROD_URL(d.code)}" target="_blank">상품</a></td></tr>`;
+  }).join('');
+}
+
+function select(depDay){
+  SEL=depDay; const d=DATA.days.find(x=>x.depDay===depDay); if(!d) return;
+  document.querySelectorAll('#mainTable tr.selected').forEach(t=>t.classList.remove('selected'));
+  document.querySelector(`#mainTable tr[data-day="${depDay}"]`)?.classList.add('selected');
+  const sec=document.getElementById('chartSec'); sec.classList.remove('hidden');
+  document.getElementById('chartTitle').innerHTML=`${fmtDayFull(depDay)} 출발 — 가격 추이 <span class="muted">(현재 ${won(d.cur)}, 변동 ${d.nchg}회)</span> <a href="${PROD_URL(d.code)}" target="_blank" style="font-size:12px">하나투어 상품 보기</a>`;
+  drawChart(d);
+  document.querySelector('#histTable tbody').innerHTML=[...d.hist].reverse().map((h,i,arr)=>{
+    const prev=arr[i+1]; const dl=prev&&prev.price!==h.price ? h.price-prev.price : 0;
+    return `<tr class="${dl<0?'latest-down':dl>0?'latest-up':''}"><td>${h.run}</td><td class="num"><b>${won(h.price)}</b></td><td class="num">${dl?`<span class="${dl<0?'delta-down':'delta-up'}">${dl<0?'▼':'▲'} ${Math.abs(dl).toLocaleString()}</span>`:''}</td><td class="num">${h.seat}/${h.total}</td><td>${h.fix==='Y'?'Y':''}</td></tr>`;
+  }).join('');
+  if(document.getElementById('tab-table').classList.contains('hidden')) showTab('table');
+  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function drawChart(d){
+  const svg=document.getElementById('chart'); const W=svg.clientWidth||900, H=260, pl=70, pr=20, pt=16, pb=40;
+  const runs=DATA.runs; const pts=d.hist.map(h=>({i:runs.indexOf(h.run), ...h}));
+  const prices=pts.map(p=>p.price); let lo=Math.min(...prices), hi=Math.max(...prices);
+  if(lo===hi){lo-=20000;hi+=20000;} const pad=(hi-lo)*0.15; lo-=pad; hi+=pad;
+  const x=i=>pl+(runs.length<2?(W-pl-pr)/2:i*(W-pl-pr)/(runs.length-1)); const y=v=>pt+(hi-v)/(hi-lo)*(H-pt-pb);
+  const ticks=5; let g='';
+  for(let k=0;k<=ticks;k++){ const v=lo+(hi-lo)*k/ticks; g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${pl-6}" y="${y(v)+4}" text-anchor="end">${Math.round(v/1000).toLocaleString()}천</text>`; }
+  const step=Math.max(1,Math.ceil(runs.length/8));
+  runs.forEach((r,i)=>{ if(i%step===0||i===runs.length-1) g+=`<text x="${x(i)}" y="${H-pb+16}" text-anchor="middle">${r.slice(5,10)}</text><text x="${x(i)}" y="${H-pb+28}" text-anchor="middle">${r.slice(11)}</text>`; });
+  let path=''; pts.forEach((p,k)=>{ const X=x(p.i),Y=y(p.price); path+= k===0?`M${X},${Y}`:`H${X}V${Y}`; });
+  g+=`<path d="${path}" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round"/>`;
+  pts.forEach((p,k)=>{ const chg=k>0&&pts[k-1].price!==p.price; g+=`<circle cx="${x(p.i)}" cy="${y(p.price)}" r="${chg?6:3.5}" fill="${chg?(p.price<pts[k-1].price?'var(--down)':'var(--up)'):'var(--series)'}" stroke="var(--surface)" stroke-width="2" data-k="${k}"/>`; if(chg) g+=`<text x="${x(p.i)}" y="${y(p.price)-10}" text-anchor="middle" style="fill:${p.price<pts[k-1].price?'var(--down)':'var(--up)'};font-weight:600">${won(p.price)}</text>`; });
+  g+=`<line x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}" stroke="var(--axis)"/>`;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`); svg.innerHTML=g;
+  const tip=document.getElementById('tip'); const wrap=svg.parentElement;
+  svg.onmousemove=e=>{ const r=svg.getBoundingClientRect(); const mx=(e.clientX-r.left)*W/r.width; let best=null,bd=1e9; pts.forEach(p=>{const dd=Math.abs(x(p.i)-mx); if(dd<bd){bd=dd;best=p;}}); if(!best||bd>40){tip.style.display='none';return;} tip.style.display='block'; tip.innerHTML=`${best.run}<br><b>${won(best.price)}</b> · 잔여 ${best.seat}/${best.total}${best.fix==='Y'?' · 출발확정':''}`; const wr=wrap.getBoundingClientRect(); tip.style.left=(e.clientX-wr.left+12)+'px'; tip.style.top=(e.clientY-wr.top-10)+'px'; };
+  svg.onmouseleave=()=>tip.style.display='none';
+}
+
+function renderCal(){
+  const el=document.getElementById('cal'); const months=[...new Set(DATA.days.map(d=>d.depDay.slice(0,6)))].sort();
+  el.innerHTML=months.map(m=>{
+    const y=+m.slice(0,4), mo=+m.slice(4)-1; const first=new Date(y,mo,1).getDay(); const nd=new Date(y,mo+1,0).getDate();
+    const mdays=DATA.days.filter(d=>d.depDay.startsWith(m)&&d.active); const mn=mdays.length?Math.min(...mdays.map(d=>d.cur)):null;
+    let cells='<div class="dow">일</div><div class="dow">월</div><div class="dow">화</div><div class="dow">수</div><div class="dow">목</div><div class="dow">금</div><div class="dow">토</div>';
+    for(let i=0;i<first;i++) cells+='<div class="cell empty"></div>';
+    for(let day=1;day<=nd;day++){ const key=m+String(day).padStart(2,'0'); const d=DATA.days.find(x=>x.depDay===key&&x.active);
+      if(!d){ cells+=`<div class="cell"><div class="d">${day}</div></div>`; continue; }
+      const cls=['cell','has', d.nchg?'changed':'', d.latestDelta<0?'latest-down':d.latestDelta>0?'latest-up':'', d.cur===mn?'min':''].join(' ');
+      cells+=`<div class="${cls}" data-day="${key}" title="${won(d.cur)} · 잔여 ${d.seat}석${d.nchg?' · 변동 '+d.nchg+'회':''}"><div class="d">${day}${d.fix==='Y'?' ✓':''}</div><div class="p">${(d.cur/10000).toFixed(1).replace('.0','')}만</div></div>`; }
+    return `<div class="month"><h3>${y}년 ${mo+1}월 <span class="muted">${mdays.length}일 · 최저 ${won(mn)}</span></h3><div class="mgrid">${cells}</div></div>`;
+  }).join('');
+}
+
+function renderEvents(){
+  const ev=DATA.events; document.getElementById('evCount').textContent=`— ${ev.length}건`;
+  document.querySelector('#evTable tbody').innerHTML= ev.length? ev.map(e=>{ const dl=e.old!=null&&e.new!=null? e.new-e.old : null;
+    return `<tr class="${dl<0?'latest-down':dl>0?'latest-up':e.kind==='신규'?'new':''}"><td>${e.run||''}</td><td class="day" style="color:var(--down);font-weight:700">${fmtDayFull(e.depDay)}</td><td>${e.kind}</td><td class="num">${e.old!=null?won(e.old):'-'}</td><td class="num"><b>${e.new!=null?won(e.new):'-'}</b></td><td class="num">${dl!=null?`<span class="${dl<0?'delta-down':'delta-up'}">${dl<0?'▼':'▲'} ${Math.abs(dl).toLocaleString()}</span>`:''}</td><td><a href="${PROD_URL(e.code)}" target="_blank">상품</a></td></tr>`; }).join('')
+    : '<tr><td colspan="7" class="muted">아직 변동 이력이 없습니다. 조회가 누적되면 여기에 쌓입니다.</td></tr>';
+}
+
+function showTab(name){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
+  ['table','cal','events'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name));
+  document.getElementById('chartSec').classList.toggle('hidden', name!=='table' || !SEL);
+}
+
+document.querySelector('.tabs').addEventListener('click',e=>{ if(e.target.dataset.tab) showTab(e.target.dataset.tab); });
+['fMonth','fChanged','fActive'].forEach(id=>document.getElementById(id).addEventListener('change',renderTable));
+document.querySelector('#mainTable tbody').addEventListener('click',e=>{ const tr=e.target.closest('tr[data-day]'); if(tr&&!e.target.closest('a')) select(tr.dataset.day); });
+document.getElementById('cal').addEventListener('click',e=>{ const c=e.target.closest('.cell[data-day]'); if(c) select(c.dataset.day); });
+document.querySelector('#mainTable thead').addEventListener('click',e=>{ const th=e.target.closest('th[data-k]'); if(!th) return; if(SORT.k===th.dataset.k) SORT.asc=!SORT.asc; else {SORT={k:th.dataset.k,asc:true};} document.querySelectorAll('#mainTable th').forEach(t=>t.classList.remove('sorted','asc')); th.classList.add('sorted'); if(SORT.asc) th.classList.add('asc'); renderTable(); });
+window.addEventListener('resize',()=>{ if(SEL) drawChart(DATA.days.find(d=>d.depDay===SEL)); });
+
+load().catch(e=>{ document.querySelector('main').innerHTML=`<div class="error">데이터를 불러오지 못했습니다: ${e.message}</div>`; });
+</script>
+</body>
+</html>

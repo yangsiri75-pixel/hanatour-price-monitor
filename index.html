@@ -85,6 +85,10 @@ footer{color:var(--muted);font-size:12px;padding:10px 24px}
 .tabs button{font:inherit;padding:6px 12px;border:1px solid var(--border);background:var(--surface);color:var(--ink2);border-radius:6px;cursor:pointer}
 .tabs button.on{background:var(--series);color:#fff;border-color:var(--series)}
 .hidden{display:none}
+.manual h3{font-size:14px;margin:18px 0 6px;color:var(--ink)}
+.manual p{margin:6px 0;line-height:1.7;max-width:900px}
+.manual table.man{width:auto;max-width:900px;margin:6px 0}
+.manual table.man th,.manual table.man td{white-space:normal;vertical-align:top}
 </style>
 </head>
 <body>
@@ -100,6 +104,7 @@ footer{color:var(--muted);font-size:12px;padding:10px 24px}
     <button class="on" data-tab="table">출발일 표</button>
     <button data-tab="cal">달력</button>
     <button data-tab="events">변동 이력</button>
+    <button data-tab="manual">📖 매뉴얼</button>
   </div>
 
   <section id="tab-table">
@@ -146,6 +151,56 @@ footer{color:var(--muted);font-size:12px;padding:10px 24px}
   <section id="tab-events" class="hidden">
     <h2>가격 변동 이력 <span class="muted" id="evCount"></span></h2>
     <div class="tablewrap"><table id="evTable"><thead><tr><th>감지 시각</th><th>출발일</th><th>구분</th><th class="num">이전</th><th class="num">이후</th><th class="num">차액</th><th>링크</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="tab-manual" class="hidden manual">
+    <h2>사용 매뉴얼</h2>
+
+    <h3>1. 이 대시보드는 무엇인가요?</h3>
+    <p>하나투어에서 판매 중인 <b>부산출발 부관훼리 후쿠오카/벳부/유후인 4일</b>(우리 상품과 경쟁하는 상품)의 <b>출발일별 성인 가격</b>을
+    매일 <b>오전 9시·오후 6시</b> 두 번 자동으로 조회해 저장하고, 그 변화를 보여주는 화면입니다.
+    데이터는 하나투어 사이트에서 직접 가져오며 사람이 손으로 입력하지 않습니다. 새 조회가 끝나면 1~2분 안에 이 화면도 자동 갱신됩니다(새로고침 F5).</p>
+
+    <h3>2. 알림은 언제 오나요?</h3>
+    <table class="man">
+      <tr><th>상황</th><th>이메일</th><th>카카오톡(대표님)</th></tr>
+      <tr><td>가격이 바뀐 출발일이 있음 / 출발일이 새로 생기거나 사라짐</td><td>즉시 (해당 조회 직후)</td><td>즉시 (09:20 / 18:20)</td></tr>
+      <tr><td>변동 없음</td><td>2일에 1번 "✅이상없음" 보고</td><td>2일에 1번</td></tr>
+      <tr><td>조회 실패(하나투어 사이트 변경 등)</td><td>-</td><td>⚠️ 미갱신 경고</td></tr>
+    </table>
+    <p>메일 제목이 <b>🔔가격변동</b>으로 시작하면 반드시 열어보세요. 메일 본문 맨 위에 이 대시보드 링크가 있고, 그 아래 변동 표와 전체 가격표가 붙어 있습니다.</p>
+
+    <h3>3. 색상·표시 읽는 법</h3>
+    <table class="man">
+      <tr><th>표시</th><th>뜻</th></tr>
+      <tr><td><b style="color:var(--down)">빨간 굵은 날짜</b></td><td>과거에 한 번이라도 가격이 바뀐 적 있는 출발일 (이력 조회 대상)</td></tr>
+      <tr><td><span style="background:var(--downbg);padding:2px 8px;border-radius:4px">빨간 배경 행</span></td><td>가장 최근 조회에서 가격이 <b>내려간</b> 출발일 — 우리 가격 검토 필요</td></tr>
+      <tr><td><span style="background:var(--upbg);padding:2px 8px;border-radius:4px">파란 배경 행</span></td><td>가장 최근 조회에서 가격이 <b>올라간</b> 출발일</td></tr>
+      <tr><td><span style="background:var(--newbg);padding:2px 8px;border-radius:4px">초록 배경 행</span> / <span class="badge">신규</span></td><td>이번 조회에서 처음 나타난 출발일</td></tr>
+      <tr><td><span class="badge">종료</span> (취소선)</td><td>이전에는 있었는데 이번 조회에서 사라진 출발일 (마감·판매종료)</td></tr>
+      <tr><td><span class="badge fix">출발확정</span></td><td>하나투어가 출발확정으로 표시한 출발일</td></tr>
+      <tr><td>▼ 20,000 / ▲ 50,000</td><td>직전 가격 대비 인하/인상 금액</td></tr>
+      <tr><td>잔여석 12/20</td><td>잔여 좌석 / 총 좌석 (하나투어 모객 상황 참고용)</td></tr>
+    </table>
+
+    <h3>4. 탭별 사용법</h3>
+    <p><b>출발일 표</b> — 기본 화면. 상단 <b>월</b> 선택으로 특정 달만 보기, <b>"변동 있었던 출발일만"</b>을 켜면 가격이 바뀐 적 있는 날짜만 남습니다.
+    열 제목을 클릭하면 정렬됩니다(예: "현재 성인가" 클릭 → 싼 순서). <b>행을 클릭</b>하면 아래에 그 출발일의 가격 추이 그래프와 조회별 이력이 열립니다. 맨 오른쪽 <b>상품</b> 링크는 하나투어 실제 판매 페이지로 이동합니다.</p>
+    <p><b>달력</b> — 월별 달력에 성인가를 만원 단위로 표시합니다. 초록 숫자는 그 달 최저가, 빨간 테두리는 변동 이력이 있는 날, 날짜 옆 ✓는 출발확정입니다. 날짜 칸을 클릭해도 추이 그래프로 이동합니다.</p>
+    <p><b>변동 이력</b> — 지금까지 감지된 모든 변동(가격/신규/종료)을 최신순으로 나열합니다. "언제, 어느 출발일이, 얼마에서 얼마로" 바뀌었는지 한 번에 확인할 때 씁니다.</p>
+
+    <h3>5. 실무에서 이렇게 쓰세요</h3>
+    <p>① 아침 9시 20분쯤 메일/카톡 확인 → 🔔가격변동이면 대시보드 열기<br>
+    ② 출발일 표에서 <b>빨간 배경(인하)</b> 행부터 확인 → "상품" 링크로 하나투어 페이지에서 조건(호텔·포함내역) 재확인<br>
+    ③ 같은 출발일의 우리 상품 가격과 비교해 인하/유지 결정<br>
+    ④ 결정 근거가 필요하면 행을 클릭해 추이 그래프를 캡처하거나, 하단 <b>history.csv</b>를 내려받아 엑셀로 정리</p>
+
+    <h3>6. 자주 묻는 질문</h3>
+    <p><b>Q. 어제 값과 오늘 값이 같은데 왜 알림이 왔나요?</b> — 변동이 없어도 시스템이 살아있다는 뜻으로 2일에 한 번 "이상없음" 보고가 갑니다.</p>
+    <p><b>Q. 표에 출발일이 137개라는데 왜 그렇게 많나요?</b> — 오늘부터 약 5개월 앞까지의 모든 출발일을 추적하기 때문입니다.</p>
+    <p><b>Q. 가격이 하나투어 페이지와 다르게 보여요.</b> — 대시보드는 마지막 조회 시각(화면 맨 위 "최근 조회") 기준입니다. 그 이후에 바뀐 값은 다음 조회(9시/18시)에 반영됩니다.</p>
+    <p><b>Q. 데이터가 며칠째 안 바뀌어요.</b> — 화면 위 "최근 조회" 시각이 오래됐다면 수집이 멈춘 것입니다. 관리자(대표님)에게 알려주세요. 카톡으로도 ⚠️ 경고가 갑니다.</p>
+    <p><b>Q. 다른 상품도 추적할 수 있나요?</b> — 가능합니다. 관리자가 설정 파일(config.json)에 상품코드 규칙을 추가하면 됩니다.</p>
   </section>
 </main>
 <footer>데이터: GitHub Actions 가 매일 09:00·18:00 수집 · <a href="https://github.com/yangsiri75-pixel/hanatour-price-monitor" target="_blank">저장소</a> · <a href="data/report.md" target="_blank">최신 리포트</a> · <a href="data/history.csv" target="_blank">history.csv</a></footer>
@@ -308,7 +363,7 @@ function renderEvents(){
 
 function showTab(name){
   document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===name));
-  ['table','cal','events'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name));
+  ['table','cal','events','manual'].forEach(t=>document.getElementById('tab-'+t).classList.toggle('hidden',t!==name));
   document.getElementById('chartSec').classList.toggle('hidden', name!=='table' || !SEL);
 }
 

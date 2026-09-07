@@ -1,11 +1,11 @@
 {
- "run_at": "2026-09-07 17:58",
+ "run_at": "2026-09-07 23:53",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
  "has_alert": false,
- "notify": true,
- "notify_reason": "강제 발송",
+ "notify": false,
+ "notify_reason": "발송 안함",
  "counts": {
   "price_changes": 0,
   "new_dates": 0,

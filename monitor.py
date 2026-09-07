@@ -200,7 +200,10 @@ def status_label(row):
 
 def build_report(cfg, cur, ch, run_at, first_run):
     url_t = cfg["product_page_url"]
-    L = [f"# {cfg['site_name']} 가격 모니터링 리포트", "", f"- 조회시각: {run_at}", ""]
+    L = [f"# {cfg['site_name']} 가격 모니터링 리포트", "", f"- 조회시각: {run_at}"]
+    if cfg.get("dashboard_url"):
+        L.append(f"- 📊 대시보드(이력·그래프·달력): {cfg['dashboard_url']}")
+    L.append("")
     if first_run:
         L.append("> 최초 실행 — 기준 스냅샷을 저장했습니다. 다음 실행부터 변동을 비교합니다.")
         L.append("")
@@ -230,11 +233,21 @@ def build_report(cfg, cur, ch, run_at, first_run):
         L.append("")
     if not any(ch.values()) and not first_run:
         L += ["변동 없음.", ""]
+    chg_map = {(c["product"], c["depDay"]): c for c in ch["price_changes"]}
+    new_set = {(c["product"], c["depDay"]) for c in ch["new_dates"]}
     for pid, p in cur.items():
-        L += [f"## 현재 가격표 — {p['label']}", "", f"총 {len(p['dates'])}개 출발일", "",
-              "| 출발일 | 성인 | 아동 | 유아 | 잔여석 | 출발확정 | 상품코드 |", "|---|---|---|---|---|---|---|"]
+        L += [f"## 현재 가격표 — {p['label']}", "", f"총 {len(p['dates'])}개 출발일 (이번 조회에서 바뀐 출발일은 색으로 표시)", "",
+              "| 출발일 | 성인 | 변동 | 아동 | 유아 | 잔여석 | 출발확정 | 상품코드 |", "|---|---|---|---|---|---|---|---|"]
         for d, r in p["dates"].items():
-            L.append(f"| {fmt_day(d)} | {won(r['adtAmt'])} | {won(r['chdAmt'])} | {won(r['infAmt'])} | "
+            c = chg_map.get((pid, d))
+            if c:
+                delta = (c["new"] or 0) - (c["old"] or 0)
+                mark = f"{'▼' if delta < 0 else '▲'} {abs(delta):,} (이전 {won(c['old'])})"
+            elif (pid, d) in new_set:
+                mark = "🆕 신규"
+            else:
+                mark = ""
+            L.append(f"| {fmt_day(d)} | {won(r['adtAmt'])} | {mark} | {won(r['chdAmt'])} | {won(r['infAmt'])} | "
                      f"{r['remaSeatCnt']}/{r['seatCnt']} | {'Y' if r['depFixYn']=='Y' else ''} | {r['saleProdCd']} |")
         L.append("")
     return "\n".join(L)
@@ -242,6 +255,7 @@ def build_report(cfg, cur, ch, run_at, first_run):
 
 def md_table_to_html(md):
     """아주 단순한 마크다운→HTML (제목/표/목록/문단)."""
+    import re
     html, in_table = [], False
     for line in md.splitlines():
         if line.startswith("|"):
@@ -256,7 +270,17 @@ def md_table_to_html(md):
             cells = [c.replace("**", "") for c in cells]
             import re
             cells = [re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2">\1</a>', c) for c in cells]
-            html.append("<tr>" + "".join(f"<{tag}>{c}</{tag}>" for c in cells) + "</tr>")
+            joined = " ".join(cells)
+            if tag == "td" and "▼" in joined:
+                style, first = ' style="background:#fdecec"', ' style="color:#d03b3b;font-weight:700"'
+            elif tag == "td" and "▲" in joined:
+                style, first = ' style="background:#e6f0fb"', ' style="color:#1c5cab;font-weight:700"'
+            elif tag == "td" and "🆕" in joined:
+                style, first = ' style="background:#eaf7ea"', ' style="font-weight:700"'
+            else:
+                style, first = "", ""
+            html.append(f"<tr{style}>" + "".join(
+                f"<{tag}{first if i == 0 else ''}>{c}</{tag}>" for i, c in enumerate(cells)) + "</tr>")
             continue
         if in_table:
             html.append("</table>")
@@ -266,7 +290,8 @@ def md_table_to_html(md):
         elif line.startswith("## "):
             html.append(f"<h3>{line[3:]}</h3>")
         elif line.startswith("- "):
-            html.append(f"<div>• {line[2:]}</div>")
+            txt = re.sub(r"(https?://\S+)", r'<a href="\1">\1</a>', line[2:])
+            html.append(f"<div>• {txt}</div>")
         elif line.startswith("> "):
             html.append(f"<p style='color:#666'>{line[2:]}</p>")
         elif line.strip():

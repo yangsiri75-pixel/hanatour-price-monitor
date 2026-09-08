@@ -2,9 +2,10 @@ name: hanatour-price-monitor
 
 on:
   schedule:
-    # UTC 기준. 00:00 UTC = 한국 09:00, 09:00 UTC = 한국 18:00
-    - cron: "0 0 * * *"
-    - cron: "0 9 * * *"
+    # UTC 기준. 23:07 UTC = 한국 08:07(출근 전), 07:07 UTC = 한국 16:07(퇴근 전)
+    # 정각(:00)은 GitHub 대기열 때문에 크게 지연되는 일이 많아 :07 로 둠
+    - cron: "7 23 * * *"
+    - cron: "7 7 * * *"
   workflow_dispatch:
     inputs:
       force_notify:

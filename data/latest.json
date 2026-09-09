@@ -4,7 +4,7 @@
   "dates": {
    "20260916": {
     "saleProdCd": "JKP443260916P0D",
-    "saleProdNm": "[출발확정] 후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
+    "saleProdNm": " 후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
     "adtAmt": 399900,
     "chdAmt": 399900,
     "infAmt": 39990,
@@ -15,8 +15,8 @@
     "depTm": "2100",
     "arrDay": "20260919",
     "arrTm": "0745",
-    "depFixYn": "Y",
-    "bkngStatCd": null,
+    "depFixYn": "N",
+    "bkngStatCd": "2",
     "minDepNop": 8,
     "promCd": null
    },
@@ -262,7 +262,7 @@
     "infAmt": 48990,
     "dcAmt": 0,
     "seatCnt": 20,
-    "remaSeatCnt": 12,
+    "remaSeatCnt": 9,
     "depDay": "20261001",
     "depTm": "2100",
     "arrDay": "20261004",
@@ -1576,7 +1576,7 @@
     "infAmt": 48990,
     "dcAmt": 0,
     "seatCnt": 20,
-    "remaSeatCnt": 5,
+    "remaSeatCnt": 0,
     "depDay": "20261217",
     "depTm": "2100",
     "arrDay": "20261220",

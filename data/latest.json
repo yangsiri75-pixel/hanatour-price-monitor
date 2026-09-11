@@ -2395,6 +2395,24 @@
     "bkngStatCd": "2",
     "minDepNop": 8,
     "promCd": null
+   },
+   "20270208": {
+    "saleProdCd": "JKP443270208P0D",
+    "saleProdNm": "후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
+    "adtAmt": 779900,
+    "chdAmt": 779900,
+    "infAmt": 77990,
+    "dcAmt": 0,
+    "seatCnt": 20,
+    "remaSeatCnt": 20,
+    "depDay": "20270208",
+    "depTm": "2100",
+    "arrDay": "20270211",
+    "arrTm": "0745",
+    "depFixYn": "N",
+    "bkngStatCd": "2",
+    "minDepNop": 8,
+    "promCd": null
    }
   }
  }

@@ -1,38 +1,118 @@
 {
- "run_at": "2026-09-30 22:37",
+ "run_at": "2026-10-01 10:56",
  "site": "하나투어",
  "first_run": false,
- "has_price_changes": false,
+ "has_price_changes": true,
  "has_alert": true,
  "notify": true,
  "notify_reason": "가격/출발일 변동",
  "counts": {
-  "price_changes": 0,
-  "new_dates": 0,
+  "price_changes": 11,
+  "new_dates": 2,
   "removed_dates": 1,
-  "info_changes": 1
+  "info_changes": 0
  },
- "price_changes": [],
- "new_dates": [],
- "removed_dates": [
+ "price_changes": [
   {
-   "depDay": "20270206",
+   "depDay": "20261011",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261011P0D"
+  },
+  {
+   "depDay": "20261020",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261020P0D"
+  },
+  {
+   "depDay": "20261027",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261027P0D"
+  },
+  {
+   "depDay": "20261102",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261102P0D"
+  },
+  {
+   "depDay": "20261109",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261109P0D"
+  },
+  {
+   "depDay": "20261116",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261116P0D"
+  },
+  {
+   "depDay": "20261123",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261123P0D"
+  },
+  {
+   "depDay": "20261124",
+   "old": 459900,
+   "new": 399900,
+   "delta": -60000,
+   "code": "JKP443261124P0D"
+  },
+  {
+   "depDay": "20261206",
+   "old": 459900,
+   "new": 419900,
+   "delta": -40000,
+   "code": "JKP443261206P0D"
+  },
+  {
+   "depDay": "20261213",
+   "old": 459900,
+   "new": 419900,
+   "delta": -40000,
+   "code": "JKP443261213P0D"
+  },
+  {
+   "depDay": "20261214",
+   "old": 459900,
+   "new": 419900,
+   "delta": -40000,
+   "code": "JKP443261214P0D"
+  }
+ ],
+ "new_dates": [
+  {
+   "depDay": "20261227",
+   "adtAmt": 459900
+  },
+  {
+   "depDay": "20270228",
    "adtAmt": 779900
   }
  ],
- "info_changes": [
+ "removed_dates": [
   {
-   "depDay": "20261015",
-   "field": "remaSeatCnt",
-   "old": 3,
-   "new": 4
+   "depDay": "20261003",
+   "adtAmt": 649900
   }
  ],
+ "info_changes": [],
  "products": {
   "fukuoka-beppu-yufuin-4d": {
    "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",
-   "dates": 136,
-   "min_adt": 459900,
+   "dates": 137,
+   "min_adt": 399900,
    "max_adt": 779900
   }
  }

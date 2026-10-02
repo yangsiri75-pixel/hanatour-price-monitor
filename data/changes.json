@@ -1,26 +1,36 @@
 {
- "run_at": "2026-10-01 23:25",
+ "run_at": "2026-10-02 11:05",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
- "has_alert": false,
- "notify": false,
- "notify_reason": "발송 안함",
+ "has_alert": true,
+ "notify": true,
+ "notify_reason": "가격/출발일 변동",
  "counts": {
   "price_changes": 0,
-  "new_dates": 0,
-  "removed_dates": 0,
+  "new_dates": 1,
+  "removed_dates": 1,
   "info_changes": 1
  },
  "price_changes": [],
- "new_dates": [],
- "removed_dates": [],
+ "new_dates": [
+  {
+   "depDay": "20270301",
+   "adtAmt": 779900
+  }
+ ],
+ "removed_dates": [
+  {
+   "depDay": "20261004",
+   "adtAmt": 549900
+  }
+ ],
  "info_changes": [
   {
-   "depDay": "20261015",
+   "depDay": "20261022",
    "field": "remaSeatCnt",
-   "old": 4,
-   "new": 2
+   "old": 14,
+   "new": 10
   }
  ],
  "products": {

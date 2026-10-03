@@ -1,5 +1,5 @@
 {
- "run_at": "2026-10-02 22:48",
+ "run_at": "2026-10-03 10:50",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
@@ -8,26 +8,24 @@
  "notify_reason": "가격/출발일 변동",
  "counts": {
   "price_changes": 0,
-  "new_dates": 0,
+  "new_dates": 1,
   "removed_dates": 1,
-  "info_changes": 1
+  "info_changes": 0
  },
  "price_changes": [],
- "new_dates": [],
+ "new_dates": [
+  {
+   "depDay": "20270302",
+   "adtAmt": 559900
+  }
+ ],
  "removed_dates": [
   {
-   "depDay": "20261005",
+   "depDay": "20261006",
    "adtAmt": 459900
   }
  ],
- "info_changes": [
-  {
-   "depDay": "20261026",
-   "field": "remaSeatCnt",
-   "old": 5,
-   "new": 6
-  }
- ],
+ "info_changes": [],
  "products": {
   "fukuoka-beppu-yufuin-4d": {
    "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",

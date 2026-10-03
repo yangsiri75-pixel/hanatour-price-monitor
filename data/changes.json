@@ -1,30 +1,20 @@
 {
- "run_at": "2026-10-03 10:50",
+ "run_at": "2026-10-03 21:28",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
- "has_alert": true,
- "notify": true,
- "notify_reason": "가격/출발일 변동",
+ "has_alert": false,
+ "notify": false,
+ "notify_reason": "발송 안함",
  "counts": {
   "price_changes": 0,
-  "new_dates": 1,
-  "removed_dates": 1,
+  "new_dates": 0,
+  "removed_dates": 0,
   "info_changes": 0
  },
  "price_changes": [],
- "new_dates": [
-  {
-   "depDay": "20270302",
-   "adtAmt": 559900
-  }
- ],
- "removed_dates": [
-  {
-   "depDay": "20261006",
-   "adtAmt": 459900
-  }
- ],
+ "new_dates": [],
+ "removed_dates": [],
  "info_changes": [],
  "products": {
   "fukuoka-beppu-yufuin-4d": {

@@ -1,43 +1,62 @@
 {
- "run_at": "2026-10-06 11:49",
+ "run_at": "2026-10-06 23:08",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
- "has_alert": true,
- "notify": true,
- "notify_reason": "가격/출발일 변동",
+ "has_alert": false,
+ "notify": false,
+ "notify_reason": "발송 안함",
  "counts": {
   "price_changes": 0,
   "new_dates": 0,
-  "removed_dates": 1,
-  "info_changes": 3
+  "removed_dates": 0,
+  "info_changes": 7
  },
  "price_changes": [],
  "new_dates": [],
- "removed_dates": [
-  {
-   "depDay": "20261008",
-   "adtAmt": 649900
-  }
- ],
+ "removed_dates": [],
  "info_changes": [
   {
-   "depDay": "20261107",
+   "depDay": "20261012",
    "field": "remaSeatCnt",
    "old": 12,
+   "new": 9
+  },
+  {
+   "depDay": "20261021",
+   "field": "remaSeatCnt",
+   "old": 18,
+   "new": 20
+  },
+  {
+   "depDay": "20261022",
+   "field": "remaSeatCnt",
+   "old": 10,
+   "new": 8
+  },
+  {
+   "depDay": "20261023",
+   "field": "remaSeatCnt",
+   "old": 18,
+   "new": 20
+  },
+  {
+   "depDay": "20261026",
+   "field": "remaSeatCnt",
+   "old": 6,
    "new": 4
   },
   {
-   "depDay": "20261123",
+   "depDay": "20261104",
    "field": "remaSeatCnt",
-   "old": 13,
-   "new": 0
+   "old": 17,
+   "new": 20
   },
   {
    "depDay": "20261123",
-   "field": "depFixYn",
-   "old": "N",
-   "new": "Y"
+   "field": "remaSeatCnt",
+   "old": 0,
+   "new": 5
   }
  ],
  "products": {

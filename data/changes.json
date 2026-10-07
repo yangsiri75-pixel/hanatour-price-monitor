@@ -1,68 +1,39 @@
 {
- "run_at": "2026-10-06 23:08",
+ "run_at": "2026-10-07 11:11",
  "site": "하나투어",
  "first_run": false,
  "has_price_changes": false,
- "has_alert": false,
- "notify": false,
- "notify_reason": "발송 안함",
+ "has_alert": true,
+ "notify": true,
+ "notify_reason": "가격/출발일 변동",
  "counts": {
   "price_changes": 0,
-  "new_dates": 0,
-  "removed_dates": 0,
-  "info_changes": 7
+  "new_dates": 1,
+  "removed_dates": 2,
+  "info_changes": 0
  },
  "price_changes": [],
- "new_dates": [],
- "removed_dates": [],
- "info_changes": [
+ "new_dates": [
   {
-   "depDay": "20261012",
-   "field": "remaSeatCnt",
-   "old": 12,
-   "new": 9
-  },
-  {
-   "depDay": "20261021",
-   "field": "remaSeatCnt",
-   "old": 18,
-   "new": 20
-  },
-  {
-   "depDay": "20261022",
-   "field": "remaSeatCnt",
-   "old": 10,
-   "new": 8
-  },
-  {
-   "depDay": "20261023",
-   "field": "remaSeatCnt",
-   "old": 18,
-   "new": 20
-  },
-  {
-   "depDay": "20261026",
-   "field": "remaSeatCnt",
-   "old": 6,
-   "new": 4
-  },
-  {
-   "depDay": "20261104",
-   "field": "remaSeatCnt",
-   "old": 17,
-   "new": 20
-  },
-  {
-   "depDay": "20261123",
-   "field": "remaSeatCnt",
-   "old": 0,
-   "new": 5
+   "depDay": "20270306",
+   "adtAmt": 589900
   }
  ],
+ "removed_dates": [
+  {
+   "depDay": "20261009",
+   "adtAmt": 649900
+  },
+  {
+   "depDay": "20261107",
+   "adtAmt": 569900
+  }
+ ],
+ "info_changes": [],
  "products": {
   "fukuoka-beppu-yufuin-4d": {
    "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",
-   "dates": 138,
+   "dates": 137,
    "min_adt": 399900,
    "max_adt": 779900
   }

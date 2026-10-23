@@ -1,404 +1,58 @@
 {
- "run_at": "2026-10-22 21:55",
+ "run_at": "2026-10-23 10:21",
  "site": "하나투어",
  "first_run": false,
- "has_price_changes": true,
+ "has_price_changes": false,
  "has_alert": true,
  "notify": true,
  "notify_reason": "가격/출발일 변동",
  "counts": {
-  "price_changes": 54,
-  "new_dates": 0,
-  "removed_dates": 0,
-  "info_changes": 0
+  "price_changes": 0,
+  "new_dates": 2,
+  "removed_dates": 1,
+  "info_changes": 3
  },
- "price_changes": [
+ "price_changes": [],
+ "new_dates": [
   {
-   "depDay": "20270104",
-   "old": 479900,
-   "new": 419900,
-   "delta": -60000,
-   "code": "JKP443270104P0D"
+   "depDay": "20261223",
+   "adtAmt": 459900
   },
   {
-   "depDay": "20270105",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270105P0D"
-  },
-  {
-   "depDay": "20270106",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270106P0D"
-  },
-  {
-   "depDay": "20270107",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270107P0D"
-  },
-  {
-   "depDay": "20270108",
-   "old": 569900,
-   "new": 529900,
-   "delta": -40000,
-   "code": "JKP443270108P0D"
-  },
-  {
-   "depDay": "20270109",
-   "old": 529900,
-   "new": 519900,
-   "delta": -10000,
-   "code": "JKP443270109P0D"
-  },
-  {
-   "depDay": "20270110",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270110P0D"
-  },
-  {
-   "depDay": "20270111",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270111P0D"
-  },
-  {
-   "depDay": "20270112",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270112P0D"
-  },
-  {
-   "depDay": "20270113",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270113P0D"
-  },
-  {
-   "depDay": "20270114",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270114P0D"
-  },
-  {
-   "depDay": "20270115",
-   "old": 549900,
-   "new": 529900,
-   "delta": -20000,
-   "code": "JKP443270115P0D"
-  },
-  {
-   "depDay": "20270116",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270116P0D"
-  },
-  {
-   "depDay": "20270117",
-   "old": 479900,
-   "new": 429900,
-   "delta": -50000,
-   "code": "JKP443270117P0D"
-  },
-  {
-   "depDay": "20270118",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270118P0D"
-  },
-  {
-   "depDay": "20270119",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270119P0D"
-  },
-  {
-   "depDay": "20270120",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270120P0D"
-  },
-  {
-   "depDay": "20270121",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270121P0D"
-  },
-  {
-   "depDay": "20270122",
-   "old": 549900,
-   "new": 529900,
-   "delta": -20000,
-   "code": "JKP443270122P0D"
-  },
-  {
-   "depDay": "20270123",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270123P0D"
-  },
-  {
-   "depDay": "20270124",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270124P0D"
-  },
-  {
-   "depDay": "20270125",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270125P0D"
-  },
-  {
-   "depDay": "20270126",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270126P0D"
-  },
-  {
-   "depDay": "20270127",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270127P0D"
-  },
-  {
-   "depDay": "20270128",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270128P0D"
-  },
-  {
-   "depDay": "20270129",
-   "old": 549900,
-   "new": 529900,
-   "delta": -20000,
-   "code": "JKP443270129P0D"
-  },
-  {
-   "depDay": "20270130",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270130P0D"
-  },
-  {
-   "depDay": "20270131",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270131P0D"
-  },
-  {
-   "depDay": "20270201",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270201P0D"
-  },
-  {
-   "depDay": "20270202",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270202P0D"
-  },
-  {
-   "depDay": "20270203",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270203P0D"
-  },
-  {
-   "depDay": "20270204",
-   "old": 529900,
-   "new": 519900,
-   "delta": -10000,
-   "code": "JKP443270204P0D"
-  },
-  {
-   "depDay": "20270205",
-   "old": 669900,
-   "new": 689900,
-   "delta": 20000,
-   "code": "JKP443270205P0D"
-  },
-  {
-   "depDay": "20270207",
-   "old": 669900,
-   "new": 689900,
-   "delta": 20000,
-   "code": "JKP443270207P0D"
-  },
-  {
-   "depDay": "20270208",
-   "old": 669900,
-   "new": 599900,
-   "delta": -70000,
-   "code": "JKP443270208P0D"
-  },
-  {
-   "depDay": "20270209",
-   "old": 669900,
-   "new": 519900,
-   "delta": -150000,
-   "code": "JKP443270209P0D"
-  },
-  {
-   "depDay": "20270210",
-   "old": 519900,
-   "new": 489900,
-   "delta": -30000,
-   "code": "JKP443270210P0D"
-  },
-  {
-   "depDay": "20270211",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270211P0D"
-  },
-  {
-   "depDay": "20270212",
-   "old": 549900,
-   "new": 529900,
-   "delta": -20000,
-   "code": "JKP443270212P0D"
-  },
-  {
-   "depDay": "20270213",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270213P0D"
-  },
-  {
-   "depDay": "20270214",
-   "old": 479900,
-   "new": 429900,
-   "delta": -50000,
-   "code": "JKP443270214P0D"
-  },
-  {
-   "depDay": "20270215",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270215P0D"
-  },
-  {
-   "depDay": "20270216",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270216P0D"
-  },
-  {
-   "depDay": "20270217",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270217P0D"
-  },
-  {
-   "depDay": "20270218",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270218P0D"
-  },
-  {
-   "depDay": "20270219",
-   "old": 549900,
-   "new": 529900,
-   "delta": -20000,
-   "code": "JKP443270219P0D"
-  },
-  {
-   "depDay": "20270220",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270220P0D"
-  },
-  {
-   "depDay": "20270221",
-   "old": 519900,
-   "new": 489900,
-   "delta": -30000,
-   "code": "JKP443270221P0D"
-  },
-  {
-   "depDay": "20270222",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270222P0D"
-  },
-  {
-   "depDay": "20270223",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270223P0D"
-  },
-  {
-   "depDay": "20270224",
-   "old": 479900,
-   "new": 459900,
-   "delta": -20000,
-   "code": "JKP443270224P0D"
-  },
-  {
-   "depDay": "20270225",
-   "old": 499900,
-   "new": 489900,
-   "delta": -10000,
-   "code": "JKP443270225P0D"
-  },
-  {
-   "depDay": "20270227",
-   "old": 619900,
-   "new": 589900,
-   "delta": -30000,
-   "code": "JKP443270227P0D"
-  },
-  {
-   "depDay": "20270228",
-   "old": 599900,
-   "new": 499900,
-   "delta": -100000,
-   "code": "JKP443270228P0D"
+   "depDay": "20270322",
+   "adtAmt": 479900
   }
  ],
- "new_dates": [],
- "removed_dates": [],
- "info_changes": [],
+ "removed_dates": [
+  {
+   "depDay": "20261222",
+   "adtAmt": 459900
+  }
+ ],
+ "info_changes": [
+  {
+   "depDay": "20261118",
+   "field": "remaSeatCnt",
+   "old": 12,
+   "new": 9
+  },
+  {
+   "depDay": "20261121",
+   "field": "remaSeatCnt",
+   "old": 20,
+   "new": 12
+  },
+  {
+   "depDay": "20261121",
+   "field": "depFixYn",
+   "old": "N",
+   "new": "Y"
+  }
+ ],
  "products": {
   "fukuoka-beppu-yufuin-4d": {
    "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",
-   "dates": 135,
+   "dates": 136,
    "min_adt": 399900,
    "max_adt": 689900
   }

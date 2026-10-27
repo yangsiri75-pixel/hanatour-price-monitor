@@ -2,24 +2,6 @@
  "fukuoka-beppu-yufuin-4d": {
   "label": "부산출발 부관훼리 후쿠오카/벳부/유후인 4일 (8명이상 출발확정, 온천호텔)",
   "dates": {
-   "20261029": {
-    "saleProdCd": "JKP443261029P0D",
-    "saleProdNm": "후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
-    "adtAmt": 489900,
-    "chdAmt": 489900,
-    "infAmt": 48990,
-    "dcAmt": 0,
-    "seatCnt": 20,
-    "remaSeatCnt": 20,
-    "depDay": "20261029",
-    "depTm": "2100",
-    "arrDay": "20261101",
-    "arrTm": "0745",
-    "depFixYn": "N",
-    "bkngStatCd": null,
-    "minDepNop": 8,
-    "promCd": "153"
-   },
    "20261030": {
     "saleProdCd": "JKP443261030P0D",
     "saleProdNm": "후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
@@ -34,7 +16,7 @@
     "arrDay": "20261102",
     "arrTm": "0745",
     "depFixYn": "N",
-    "bkngStatCd": "2",
+    "bkngStatCd": null,
     "minDepNop": 8,
     "promCd": "153"
    },
@@ -2462,6 +2444,24 @@
     "depDay": "20270325",
     "depTm": "2100",
     "arrDay": "20270328",
+    "arrTm": "0745",
+    "depFixYn": "N",
+    "bkngStatCd": "2",
+    "minDepNop": 8,
+    "promCd": null
+   },
+   "20270326": {
+    "saleProdCd": "JKP443270326P0D",
+    "saleProdNm": "후쿠오카/벳부/유후인  4일 #부관훼리 #8명이상 출발확정 #온천호텔 #규슈핵심일정 #시모노세키 관광",
+    "adtAmt": 549900,
+    "chdAmt": 549900,
+    "infAmt": 54990,
+    "dcAmt": 0,
+    "seatCnt": 20,
+    "remaSeatCnt": 20,
+    "depDay": "20270326",
+    "depTm": "2100",
+    "arrDay": "20270329",
     "arrTm": "0745",
     "depFixYn": "N",
     "bkngStatCd": "2",
